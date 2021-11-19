@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="780.0" prefWidth="1530.0" spacing="20.0" style="-fx-background-color: Black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.MainMenu">
+   <children>
+      <Label prefHeight="54.0" prefWidth="439.0" text="WSU JETPACK JOYRIDE" textFill="#232cda" underline="true">
+         <font>
+            <Font name="Comic San s MS" size="36.0" />
+         </font></Label>
+      <ImageView fx:id="logo" fitHeight="183.0" fitWidth="298.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Image/OwlImage.jpg" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </ImageView>
+      <Label text="Developed by Michael, Ross, Spencer, Nick, and Jeremiah" textFill="WHITE">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font></Label>
+      <Pane fx:id="Pane" prefHeight="113.0" prefWidth="630.0">
+         <children>
+            <Button fx:id="primaryButton" alignment="BOTTOM_CENTER" layoutX="771.0" layoutY="44.0" onAction="#StartGame" scaleX="1.5" scaleY="1.5" text="Start Game" />
+            <Button fx:id="highScoresButton" layoutX="636.0" layoutY="88.0" mnemonicParsing="false" onAction="#SwitchToHighScoresMenu" scaleX="1.5" scaleY="1.5" text="High Scores" />
+            <TextField fx:id="name" layoutX="557.0" layoutY="44.0" onMouseClicked="#RemoveLabel" prefWidth="145.0" scaleX="1.5" scaleY="1.5" />
+            <Button fx:id="optionsButton" layoutX="767.0" layoutY="87.0" mnemonicParsing="false" onAction="#SwitchToOptionsMenu" scaleX="1.5" scaleY="1.5" text="Options" />
+            <MediaView fitHeight="200.0" fitWidth="200.0" />
+         </children>
+      </Pane>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
