@@ -4,12 +4,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -23,12 +24,10 @@ import java.io.IOException;
 
 public class PauseMenu {
     private double PauseMenuWidth;
-    private double PauseMenuHeight;
     private AnchorPane pauseMenu;
     private Button mainMenu;
     private Label highScoresTitle;
-    private MediaPlayer mPlayer;
-    private double musicVolume;
+
 
     PauseMenu(Music music) {
         InitializePauseMenu();
@@ -56,7 +55,7 @@ public class PauseMenu {
         DatabaseConnect DB = new DatabaseConnect();
         User HighestScores = DB.getTopScores();
 
-        for (int i=0;i<HighestScores.getSize();i++){
+        for (int i=0;i<5;i++){
             String name = HighestScores.getNames(i);
             int score = HighestScores.getScores(i);
             CreateHighScoreLabel(name, score, i);
@@ -82,10 +81,8 @@ public class PauseMenu {
         double screenHeight = screenBounds.getMaxY();
         pauseMenu.setPrefSize(screenWidth-720,screenHeight-380);
         PauseMenuWidth = pauseMenu.getPrefWidth();
-        PauseMenuHeight = screenBounds.getMaxY();
         pauseMenu.setLayoutX((screenWidth-pauseMenu.getPrefWidth())/2);
         pauseMenu.setLayoutY((screenHeight-pauseMenu.getPrefHeight())/2);
-        this.mPlayer = mPlayer;
 
         AnchorPane colorPane = new AnchorPane();
         colorPane.setPrefSize(pauseMenu.getPrefWidth(), pauseMenu.getPrefHeight());

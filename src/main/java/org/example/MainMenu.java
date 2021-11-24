@@ -19,7 +19,7 @@ public class MainMenu {
     @FXML
     ImageView logo;
     private static ColorPicker colorPicker;
-    private static ChoiceBox musicChoice;
+    private static ChoiceBox<String> musicChoice;
     private static String backGroundImage;
     @FXML
     Button primaryButton;

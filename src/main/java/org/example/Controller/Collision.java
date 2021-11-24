@@ -31,13 +31,13 @@ public class Collision {
      * @param enemy: The enemy to be checked.
      */
     public void checkEnemyCollision(Enemy enemy) {
-        final double playerTopHitbox = player.getPlayerImageView().getY();
-        final double playerBottomHitBox = playerTopHitbox + player.getPlayerImageView().getFitHeight();
+        final double playerTopHitBox = player.getPlayerImageView().getY();
+        final double playerBottomHitBox = playerTopHitBox + player.getPlayerImageView().getFitHeight();
         final double enemyTopHitBox = enemy.getImageView().getY();
         final double enemyBottomHitBox = enemyTopHitBox + enemy.getImageView().getFitHeight();
 
-        if (playerTopHitbox <= enemyBottomHitBox && playerTopHitbox >= enemyTopHitBox ||
-                playerBottomHitBox >= enemyBottomHitBox && playerBottomHitBox >= enemyTopHitBox) {
+        if (playerTopHitBox <= enemyBottomHitBox && playerBottomHitBox >= enemyBottomHitBox||
+                playerTopHitBox <= enemyTopHitBox && playerBottomHitBox >= enemyTopHitBox) {
             if (powerUp != null) {
                 if (!powerUp.isPowerup) {
                     death.deathSequence();

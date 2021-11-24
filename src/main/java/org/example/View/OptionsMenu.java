@@ -18,47 +18,81 @@ import java.io.IOException;
 public class OptionsMenu {
 
 
+    /**
+     * The ChoiceBox initialized for the choice of music.
+     */
     private ChoiceBox<String> musicChoice;
+    /**
+     * The colorPicker initialized for the background color. Used if the player does not pick any image background.
+     */
     private ColorPicker colorPicker;
+    /**
+     * The width of the screen of the user.
+     */
     private double screenWidth;
+    /**
+     * The height of the screen of the user.
+     */
     private double screenHeight;
+    /**
+     * The Pane that every Object is added to. This is the root of the Scene.
+     */
     private AnchorPane optionsPane;
+    /**
+     * The snowBackground ImageView.
+     */
     private ImageView snowBackgroundIMG;
+    /**
+     * The forestBackground ImageView.
+     */
     private ImageView forestBackgroundIMG;
+    /**
+     * The retroBackground ImageView.
+     */
     private ImageView retroBackgroundIMG;
+    /**
+     * The skyBackground ImageView.
+     */
     private ImageView skyBackgroundIMG;
+    /**
+     * The snowBackground ImageView.
+     */
     private RadioButton snowBackground;
+    /**
+     * THe forestBackground's radio Button.
+     */
     private RadioButton forestBackground;
+    /**
+     * The retroBackground's radio Button.
+     */
     private RadioButton retroBackground;
+    /**
+     * The skyBackground's radio Button.
+     */
     private RadioButton skyBackground;
+    /**
+     * The radio Button to choose a colored background.
+     */
     private RadioButton solidBackground;
+    /**
+     * The string of the background Image the player specified. Used to carry the players choice to their game.
+     */
     private String backgroundIMG;
+    /**
+     * The colorPicker carried in from the Main menu. This is used in case the user wants to go back into the options
+     * menu so his setting previously set are not changed.
+     */
     private ColorPicker background;
+    /**
+     * The music ChoiceBox taken in from the the Main menu. This is used in case the user wants to go back into the
+     * options menu so his setting previously set are not changed.
+     */
     private ChoiceBox<String> musicChoiceBox;
 
-
-    public void start(Stage stage, ChoiceBox<String> musicChoice, ColorPicker background, String backgroundIMG){
-        this.musicChoiceBox = musicChoice;
-        this.background = background;
-        this.backgroundIMG = backgroundIMG;
-        InitializePane();
-        InitializeMusicChoice();
-        InitializeImageViews();
-        InitializeColorPicker();
-        InitializeBackGroundRadios();
-        InitializeMainMenuButton();
-        InitializeVolumeSlider();
-
-
-        optionsPane.getChildren().add(colorPicker);
-
-        Scene scene = new Scene(optionsPane);
-
-        stage.setScene(scene);
-        stage.show();
-
-    }
-
+    /**
+     * This will initialize the options pane with preferred size and background color.
+     * Then it establishes the screen width and height
+     */
     private void InitializePane(){
         optionsPane = new AnchorPane();
         optionsPane.setPrefSize(1530,780);
@@ -68,6 +102,11 @@ public class OptionsMenu {
         screenHeight = optionsPane.getPrefHeight();
     }
 
+    /**
+     * This method initializes the music choice box. It allows the player to pick what music they want to play
+     * throughout the game. It gives the user three options: Don't Stop Coming, Little Einsteins (Trap remix),
+     * and Wii Sports (Chill-Step remix).
+     */
     private void InitializeMusicChoice(){
         musicChoice = new ChoiceBox<>();
         String[] st = {"Don't Stop Coming", "Little Einsteins (Trap remix)", "Wii Sports (Chill-Step remix)"};
@@ -86,6 +125,13 @@ public class OptionsMenu {
         optionsPane.getChildren().add(musicChoice);
     }
 
+    /**
+     * This method initialized the radio buttons for the image backgrounds. It initializes the toggle group and has
+     * an onAction event to blur and disable the unselected option, either image background or color background.
+     * It will also use the radio buttons to decide which options are selected. There are two toggle groups, one for
+     * the image and color background options and one for the images themselves as you dont want to select more that
+     * one image at a time. Once all of this has been initialized these radio buttons are added to the OptionsPane.
+     */
     private void InitializeBackGroundRadios(){
         solidBackground = new RadioButton();
         RadioButton imageBackground = new RadioButton();
@@ -195,6 +241,10 @@ public class OptionsMenu {
         ,forestBackground,retroBackground,skyBackground);
     }
 
+    /**
+     * This method initializes the volume slider for the game. This has an action event to reduce or raise the
+     * volume accordingly as the player moves the slider.
+     */
     private void InitializeVolumeSlider(){
         Slider volume = new Slider(0,100,App.getVolume());
         volume.setPrefSize(150,30);
@@ -219,6 +269,10 @@ public class OptionsMenu {
         optionsPane.getChildren().addAll(volume, volumeLabel);
     }
 
+    /**
+     * This method initializes the colorPicker for the colored background. The player may go through an select any
+     * color they wish. Once the ColorPicker is initialized it is added to the OptionsPane.
+     */
     private void InitializeColorPicker(){
         colorPicker = new ColorPicker();
         colorPicker.setEditable(true);
@@ -232,8 +286,14 @@ public class OptionsMenu {
         colorPicker.setStyle("-fx-font: 12px \"Comic Sans MS\";");
         colorPicker.setLayoutX(screenWidth/2-((1.5)*colorPicker.getPrefWidth())-10);
         colorPicker.setLayoutY(50-colorPicker.getPrefHeight()/2);
+        optionsPane.getChildren().add(colorPicker);
     }
 
+    /**
+     * This method initializes the ImageViews for the image backgrounds. It will display the images as a 2 x 2 display.
+     * There are four possible choices for a background. The image positions are set next to their radio buttons and
+     * then they are added to the OptionsPane.
+     */
     private void InitializeImageViews(){
         Image SnowBackground = new Image("file:Image/Snow.png");
         snowBackgroundIMG = new ImageView(SnowBackground);
@@ -266,12 +326,16 @@ public class OptionsMenu {
         skyBackgroundIMG.setLayoutX(retroBackgroundIMG.getLayoutX()+3*screenWidth/8+50);
         skyBackgroundIMG.setLayoutY(100+3*screenHeight/8);
 
-        optionsPane.getChildren().add(snowBackgroundIMG);
-        optionsPane.getChildren().add(forestBackgroundIMG);
-        optionsPane.getChildren().add(retroBackgroundIMG);
-        optionsPane.getChildren().add(skyBackgroundIMG);
-
+        optionsPane.getChildren().addAll(snowBackgroundIMG, forestBackgroundIMG, retroBackgroundIMG, skyBackgroundIMG);
     }
+
+    /**
+     * This method is the return from the Options Menu method. This initialized a "Main Menu" button that will return
+     * you to the MainMenu. It chooses the proper background image to send back based on what radio button is selected.
+     * Taking solid background as the priority over the image background. So if an image background is selected but
+     * the solidBackground button is also selected it will notice the player previously selected an image background but
+     * now wants a solid background.
+     */
     private void InitializeMainMenuButton(){
         Button mainMenu = new Button("Main Menu");
         mainMenu.setPrefSize(112,30);
@@ -300,5 +364,33 @@ public class OptionsMenu {
         mainMenu.setLayoutY(50-mainMenu.getPrefHeight()/2);
         optionsPane.getChildren().add(mainMenu);
     }
+    /**
+     *  This method is used to initialize the objects on the Main menu. It calls many various helper methods to
+     *  complete many tedious tasks. A lot of the object were manually set based on the bounds of the pain. Thus we
+     *  made it all more readable by using the helper functions.
+     *
+     * @param stage:         The stage passed from the App class. After we set a new scene the stage is shown again
+     *                       and the options menu is displayed.
+     * @param musicChoice:   The choice of music the player has picked. This is initialized to "Don't Stop Coming".
+     * @param background:    The background that the player initially picked. This is initialized to the color "Cyan".
+     * @param backgroundIMG: The background Image that the player initially picked. This is initialized to null;
+     */
+    public void start(Stage stage, ChoiceBox<String> musicChoice, ColorPicker background, String backgroundIMG){
+        this.musicChoiceBox = musicChoice;
+        this.background = background;
+        this.backgroundIMG = backgroundIMG;
+        InitializePane();
+        InitializeMusicChoice();
+        InitializeImageViews();
+        InitializeColorPicker();
+        InitializeBackGroundRadios();
+        InitializeMainMenuButton();
+        InitializeVolumeSlider();
 
+
+        Scene scene = new Scene(optionsPane);
+
+        stage.setScene(scene);
+        stage.show();
+    }
 }

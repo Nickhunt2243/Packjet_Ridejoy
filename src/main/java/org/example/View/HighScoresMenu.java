@@ -72,7 +72,7 @@ public class HighScoresMenu {
         DatabaseConnect DB = new DatabaseConnect();
         User HighestScores = DB.getTopScores();
 
-        for (int i=0;i<HighestScores.getSize();i++){
+        for (int i=0;i<5;i++){
             String name = HighestScores.getNames(i);
             int score = HighestScores.getScores(i);
             CreateHighScoreLabel(name, score, i);

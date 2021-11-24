@@ -5,6 +5,7 @@ module org.example {
     requires javafx.controls;
     requires javafx.media;
     requires java.sql;
+    requires mysql.connector.java;
 
 
     opens org.example to javafx.fxml;

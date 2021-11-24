@@ -163,7 +163,8 @@ public class SpawnEnemies {
         double enemyXLeft = enemy.getImageView().getX();
         double enemyXRight = enemyXLeft + enemy.getImageView().getFitWidth();
 
-        if (enemyXLeft <= playerXRight && enemyXRight <= playerXLeft){
+        if (enemyXRight <= playerXRight && enemyXRight >= playerXLeft
+                || enemyXLeft <= playerXRight && enemyXLeft >= playerXLeft){
             collision.checkEnemyCollision(enemy);
         }
     }

@@ -28,7 +28,7 @@ public class App extends Application {
     private static GameGUI gameGUI = null;
     private static MediaPlayer mPlayer;
     private static double volumeDouble = .05;
-    private static ChoiceBox musicChoiceBox = null;
+    private static ChoiceBox<String> musicChoiceBox = null;
     private static ColorPicker backGroundPicker = null;
     private static String backGroundImageString = null;
     private static String playerNameString = null;
@@ -45,7 +45,7 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void setRoot(String fxml, ColorPicker backGround, ChoiceBox musicChoice, String backgroundImage, String playerName) throws IOException {
+    public static void setRoot(String fxml, ColorPicker backGround, ChoiceBox<String> musicChoice, String backgroundImage, String playerName) throws IOException {
         saveBackGroundColor(backGround);
         saveBackGroundImage(backgroundImage);
         saveMusicChoice(musicChoice);
@@ -55,7 +55,7 @@ public class App extends Application {
             case "GameGUI":
                 mPlayer.stop();
                 stage.hide();
-                gameGUI = new GameGUI(backGroundPicker, musicChoiceBox.getValue().toString(), backGroundImageString, playerNameString,
+                gameGUI = new GameGUI(backGroundPicker, musicChoiceBox.getValue(), backGroundImageString, playerNameString,
                         volumeDouble);
                 gameGUI.Start(stage);
                 break;
@@ -98,7 +98,7 @@ public class App extends Application {
         return 100* mPlayer.getVolume();
     }
 
-    private static void saveMusicChoice(ChoiceBox musicChoice) {
+    private static void saveMusicChoice(ChoiceBox<String> musicChoice) {
         if (musicChoice != null)
             musicChoiceBox = musicChoice;
     }
