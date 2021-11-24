@@ -73,27 +73,25 @@ public class DatabaseConnect{
         ArrayList<Integer> scores = new ArrayList<>();
         ArrayList<String> names = new ArrayList<>();
         User user;
-
         try{
-            assert conn != null;
-            stmt = conn.createStatement();
-            String sql = "SELECT * \n" +
-                    "from Hscore h \n" +
-                    "order by h.score DESC\n" +
-                    "LIMIT 5";
-            rs = stmt.executeQuery(sql);
-
-            int i=0;
-            while (rs.next()){
-                scores.add(i, rs.getInt("score"));
-                names.add(i, rs.getString("Name"));
-                i++;
+            if (conn != null){
+                stmt = conn.createStatement();
+                String sql = "SELECT * \n" +
+                        "from Hscore h \n" +
+                        "order by h.score DESC\n" +
+                        "LIMIT 5";
+                rs = stmt.executeQuery(sql);
+                int i=0;
+                while (rs.next()){
+                    scores.add(i, rs.getInt("score"));
+                    names.add(i, rs.getString("Name"));
+                    i++;
+                }
+                user = new User(scores, names);
+                return user;
             }
-            user = new User(scores, names);
-            return user;
         } catch (SQLException throwable) {
             throwable.printStackTrace();
-
         }
         return null;
     }

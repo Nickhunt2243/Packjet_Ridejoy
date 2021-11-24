@@ -11,120 +11,152 @@ import javafx.scene.text.FontWeight;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class MainMenu {
 
-    //Main menu logo
+    //*** STATIC FIELD VARIABLES ***//
+    /**
+     * The String containing the players valid name that they entered.
+     */
+    private static String playerNameString;
+
+    //*** NON-STATIC FIELD VARIABLES ***//
+    /**
+     * The label that holds the error for the name input.
+     */
+    private Label nameInputError;
+    /**
+     * The Owl logo you see in the middle of the screen.
+     */
     @FXML
     ImageView logo;
-    private static ColorPicker colorPicker;
-    private static ChoiceBox<String> musicChoice;
-    private static String backGroundImage;
+    /**
+     * The button that starts the game. The onAction event will send the user back to App to then send us to gameGUI
+     * with all the necessary variables.
+     */
     @FXML
-    Button primaryButton;
+    Button startButton;
+    /**
+     * The button that will send the user to the high scores menu where they can see who holds the top five scores.
+     */
     @FXML
     Button highScoresButton;
+    /**
+     * The button that sends the user to the options menu.
+     */
     @FXML
     Button optionsButton;
+    /**
+     * The TextField for the user to enter their name in. It requires a string one to four characters.
+     */
     @FXML
     TextField name;
+    /**
+     * THis is the pane that every object will be added to within the main menu.
+     */
     @FXML
     Pane Pane;
-    private static String PlayerNameString;
-    private Label nameInputError;
-
+    /**
+     * This method is the Initialize FXML method, it is called prior to the stage showing its content. It will
+     * initialize the positions of all the object that display on the main menu.
+     */
     @FXML
     private void initialize(){
-        //Initializes the image into the main stage
         File file = new File("Image/OwlImage.jpg");
         Image image = new Image(file.toURI().toString());
+
+        playerNameString = Objects.requireNonNullElse(App.getPlayerName(), "Ex: John (1-4 Char)");
+
         logo.setImage(image);
-        name.setText(PlayerNameString);
+
+        name.setText(playerNameString);
         name.setFont(Font.font("Comic Sans MS"));
-        primaryButton.setFont(Font.font("Comic Sans MS"));
+
+        startButton.setFont(Font.font("Comic Sans MS"));
         highScoresButton.setFont(Font.font("Comic Sans MS"));
         optionsButton.setFont(Font.font("Comic Sans MS"));
+
         nameInputError = new Label("*Character Limit Exceeded");
         nameInputError.setTextFill(Color.RED);
         nameInputError.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
         nameInputError.setLayoutX(name.getLayoutX()-35);
         nameInputError.setLayoutY(name.getLayoutY()-30);
     }
-
+    /**
+     * This is the onAction event for the start game button. This uses App to send you to the game screen.
+     *
+     * @throws IOException: Possible IOException within setting the root. So App will handle the exception.
+     */
     @FXML
     private void StartGame() throws IOException {
-       // if (musicChoice.is)
-        changePlayerName();
-        if (PlayerNameString.length() == 0) {
+        if (nameIsValid()) {
+            changePlayerName();
+            App.setRoot("GameGUI", null, null, null, playerNameString);
+        }
+    }
+    /**
+     * This is the onAction event for the High Scores button. This uses App to send you to the high scores menu.
+     *
+     * @throws IOException: Possible IOException within setting the root. So App will handle the exception.
+     */
+    @FXML
+    private void SwitchToHighScoresMenu() throws IOException {
+        if (nameIsValid()){
+            changePlayerName();
+            App.setRoot("HighScores", null, null, null, playerNameString);
+        }
+    }
+    /**
+     * This is the onAction event for the Options menu button. This uses App to send you to the options menu.
+     *
+     * @throws IOException: Possible IOException within setting the root. So App will handle the exception.
+     */
+    @FXML
+    private void SwitchToOptionsMenu() throws IOException {
+        if (nameIsValid()){
+            changePlayerName();
+            App.setRoot("Options", null, null, null, playerNameString);
+        }
+    }
+    /**
+     * This method is used to remove the nameInputError from the Pane everytime you click into the name TextField.
+     * This is done as when the user clicks in the name TextField, it is assumed they will fix what is throwing the
+     * error. If they do not, then another error will be thrown.
+     */
+    @FXML
+    private void RemoveLabel(){
+        Pane.getChildren().remove(nameInputError);
+        name.setText("");
+    }
+    /**
+     * This method is used to check the validity of the name that the character entered. It is called everytime the
+     * player tries to exit the scene (clicks the startGame, highScores, or options buttons).
+     *
+     * @return The boolean of whether the name is valid.
+     */
+    private boolean nameIsValid(){
+        String tmpName = name.getText();
+        if (tmpName.equals("Ex: John (1-4 Char)") || tmpName.length() == 0) {
             nameInputError.setText("*Input Your Name");
             if (!Pane.getChildren().contains(nameInputError))
                 Pane.getChildren().add(nameInputError);
-        } else if (PlayerNameString.length() >=5 && PlayerNameString.length() > 0) {
+            return false;
+        } else if (tmpName.length() >=5) {
             nameInputError.setText("*Character Limit Exceeded (1-4)");
-            Pane.getChildren().add(nameInputError);
-        } else if (PlayerNameString.length() < 5) {
-            App.setRoot("GameGUI", colorPicker, musicChoice, backGroundImage, PlayerNameString);
+            if (!Pane.getChildren().contains(nameInputError))
+                Pane.getChildren().add(nameInputError);
+            return false;
         }
+        return true;
     }
-    @FXML
-    private void SwitchToHighScoresMenu() throws IOException {
-        // if (musicChoice.is)
-        changePlayerName();
-        App.setRoot("HighScores", colorPicker, musicChoice, backGroundImage, PlayerNameString);
-    }
-    @FXML
-    private void SwitchToOptionsMenu() throws IOException {
-        changePlayerName();
-        App.setRoot("Options", colorPicker, musicChoice, backGroundImage, PlayerNameString);
-    }
-    @FXML
-    private void RemoveLabel(){
-        if (Pane.getChildren().contains(nameInputError)){
-            Pane.getChildren().remove(nameInputError);
-        }
-        name.setText("");
-    }
-
+    /**
+     * The method that is used to update the players name if it is valid.
+     */
     private void changePlayerName(){
-        PlayerNameString = name.getText();
-    }
-    public static void setMusicChoice(ChoiceBox givenMusicChoice){
-        musicChoice = givenMusicChoice;
-    }
-    public static void setColorPicker(ColorPicker givenColorPicker){
-        colorPicker = givenColorPicker;
-    }
-    public static void setBackGroundImage(String givenBackgroundImage){
-        backGroundImage = givenBackgroundImage;
-    }
-    public static void setPlayerName(String playerName){
-        if (playerName == null){
-            PlayerNameString = "Ex: John (1-4 Char)";
-        }else if (playerName != null){
-            PlayerNameString = playerName;
-        }
-    }
-
-    public TextField getNameTextField(){
-        return name;
+        playerNameString = name.getText();
     }
 
 
-    public static void setParameters(ChoiceBox givenMusicChoice, ColorPicker givenColorPicker, String givenBackGroundImage, String playerName){
-        setMusicChoice(givenMusicChoice);
-        setColorPicker(givenColorPicker);
-        setBackGroundImage(givenBackGroundImage);
-        setPlayerName(playerName);
-    }
-    public static void InitialMainMenuEssentials(){
-        setBackGroundImage(null);
-        ChoiceBox tmpCBox = new ChoiceBox();
-        tmpCBox.setValue("Don't stop Coming");
-        setMusicChoice(tmpCBox);
-        setPlayerName(null);
-        ColorPicker tmpCPicker = new ColorPicker();
-        tmpCPicker.setValue(Color.AQUA);
-        setColorPicker(tmpCPicker);
-    }
 }

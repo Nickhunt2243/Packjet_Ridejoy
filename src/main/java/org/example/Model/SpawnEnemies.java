@@ -99,7 +99,6 @@ public class SpawnEnemies {
                 enemy = new QuizEnemy(randomYPosMissile);
                 break;
         }
-
         // ensuring we don't get an enemy at an index we dont want
         if (enemyIndex == 10) enemyIndex = 0;
         setEnemyArrays(enemyIndex, enemy);
@@ -207,7 +206,6 @@ public class SpawnEnemies {
         this.anchorPane = anchorPane;
         this.collision = collision;
         SetMove(move);
-
         // tmpEnemy Creation time line Spawns enemy every 3 seconds
         tlineEnemyCreation = new Timeline(new KeyFrame(Duration.millis(3000), event -> InitializeEnemy()));
         tlineEnemyCreation.setCycleCount(Timeline.INDEFINITE);
@@ -220,9 +218,7 @@ public class SpawnEnemies {
         tlineEnemyMovement = new Timeline(new KeyFrame(Duration.millis(4), event -> EnemyMovement()));
         tlineEnemyMovement.setCycleCount(Timeline.INDEFINITE);
         tlineEnemyMovement.play();
-
     }
-
 }
 
 

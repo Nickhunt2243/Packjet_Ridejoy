@@ -305,8 +305,8 @@ public class GameGUI {
    * @param playerName:            The name of the player.
    * @param musicVolume:           The chosen volume of the music.
    */
-  public GameGUI(ColorPicker backGround, String musicChoice, String backGroundImageString, String playerName, double musicVolume) {
-    this.backGroundColor = backGround.getValue();
+  public GameGUI(Color backGround, String musicChoice, String backGroundImageString, String playerName, double musicVolume) {
+    this.backGroundColor = backGround;
     this.backGroundImageString = backGroundImageString;
     this.playerName = playerName;
     this.music = new Music(musicChoice);
@@ -316,7 +316,7 @@ public class GameGUI {
 
 /*
   SPENCER!! LOL.
-  This was in move pain but I think you should create another TimeLine in PowerUps and do all of this. Kind of like
+  This was in move pane but I think you should create another TimeLine in PowerUps and do all of this. Kind of like
   how I did the TimeLines for enemy movement, animation and creation.
 
 
