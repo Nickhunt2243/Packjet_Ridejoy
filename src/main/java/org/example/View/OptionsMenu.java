@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.example.App;
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class OptionsMenu {
@@ -82,7 +83,7 @@ public class OptionsMenu {
      * The colorPicker carried in from the Main menu. This is used in case the user wants to go back into the options
      * menu so his setting previously set are not changed.
      */
-    private ColorPicker background;
+    private Color backGroundPicker;
     /**
      * The music ChoiceBox taken in from the the Main menu. This is used in case the user wants to go back into the
      * options menu so his setting previously set are not changed.
@@ -132,7 +133,7 @@ public class OptionsMenu {
      * the image and color background options and one for the images themselves as you dont want to select more that
      * one image at a time. Once all of this has been initialized these radio buttons are added to the OptionsPane.
      */
-    private void InitializeBackGroundRadios(){
+    private void InitializeBackGroundRadios() {
         solidBackground = new RadioButton();
         RadioButton imageBackground = new RadioButton();
         ToggleGroup BackgroundSelectorGroup = new ToggleGroup();
@@ -276,10 +277,7 @@ public class OptionsMenu {
     private void InitializeColorPicker(){
         colorPicker = new ColorPicker();
         colorPicker.setEditable(true);
-        if (backgroundIMG == null)
-            colorPicker.setValue(background.getValue());
-        if (backgroundIMG != null)
-            colorPicker.setValue(Color.AQUA);
+        colorPicker.setValue(Objects.requireNonNullElse(backGroundPicker, Color.CYAN));
         colorPicker.setPrefSize(125,30);
         colorPicker.setScaleX(1.5);
         colorPicker.setScaleY(1.5);
@@ -325,7 +323,6 @@ public class OptionsMenu {
         skyBackgroundIMG.setFitHeight(screenHeight*3/8);
         skyBackgroundIMG.setLayoutX(retroBackgroundIMG.getLayoutX()+3*screenWidth/8+50);
         skyBackgroundIMG.setLayoutY(100+3*screenHeight/8);
-
         optionsPane.getChildren().addAll(snowBackgroundIMG, forestBackgroundIMG, retroBackgroundIMG, skyBackgroundIMG);
     }
 
@@ -343,15 +340,15 @@ public class OptionsMenu {
 
             try {
                 if (solidBackground.isSelected()) {
-                    App.setRoot("/Model/primary", colorPicker, musicChoice,  null, null);
+                    App.setRoot("/Model/primary", colorPicker.getValue(), musicChoice,  null, null);
                 } else if (snowBackground.isSelected()) {
-                    App.setRoot("/Model/primary", colorPicker, musicChoice, "snow", null);
+                    App.setRoot("/Model/primary", colorPicker.getValue(), musicChoice, "snow", null);
                 } else if (forestBackground.isSelected()){
-                    App.setRoot("/Model/primary", colorPicker, musicChoice, "forest", null);
+                    App.setRoot("/Model/primary", colorPicker.getValue(), musicChoice, "forest", null);
                 } else if (retroBackground.isSelected()){
-                    App.setRoot("/Model/primary", colorPicker, musicChoice, "retro", null);
+                    App.setRoot("/Model/primary", colorPicker.getValue(), musicChoice, "retro", null);
                 } else if (skyBackground.isSelected()){
-                    App.setRoot("/Model/primary", colorPicker, musicChoice, "sky", null);
+                    App.setRoot("/Model/primary", colorPicker.getValue(), musicChoice, "sky", null);
                 }
 
             } catch (IOException ioException) {
@@ -372,12 +369,12 @@ public class OptionsMenu {
      * @param stage:         The stage passed from the App class. After we set a new scene the stage is shown again
      *                       and the options menu is displayed.
      * @param musicChoice:   The choice of music the player has picked. This is initialized to "Don't Stop Coming".
-     * @param background:    The background that the player initially picked. This is initialized to the color "Cyan".
-     * @param backgroundIMG: The background Image that the player initially picked. This is initialized to null;
+     * @param backGroundPicker:    The backGroundPicker that the player initially picked. This is initialized to the color "Cyan".
+     * @param backgroundIMG: The backGroundPicker Image that the player initially picked. This is initialized to null;
      */
-    public void start(Stage stage, ChoiceBox<String> musicChoice, ColorPicker background, String backgroundIMG){
+    public void start(Stage stage, ChoiceBox<String> musicChoice, Color backGroundPicker, String backgroundIMG){
         this.musicChoiceBox = musicChoice;
-        this.background = background;
+        this.backGroundPicker = backGroundPicker;
         this.backgroundIMG = backgroundIMG;
         InitializePane();
         InitializeMusicChoice();
